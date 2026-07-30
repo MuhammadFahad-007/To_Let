@@ -1,0 +1,10 @@
+model ListingImage {
+  id         String  @id @default(uuid()) @db.Uuid
+  listingId  String  @map("listing_id") @db.Uuid
+  listing    Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  imageUrl   String  @map("image_url")
+  isPrimary  Boolean @default(false) @map("is_primary")
+  orderIndex Int     @default(0) @map("order_index")
+
+  @@map("listing_images")
+}

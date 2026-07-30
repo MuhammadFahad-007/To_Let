@@ -1,0 +1,10 @@
+model AiSearchLog {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String?   @map("user_id") @db.Uuid
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  queryText     String    @map("query_text")
+  parsedFilters Json      @map("parsed_filters") @db.JsonB
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@map("ai_search_logs")
+}

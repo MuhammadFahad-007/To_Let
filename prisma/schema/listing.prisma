@@ -1,0 +1,34 @@
+model Listing {
+  id          String        @id @default(uuid()) @db.Uuid
+  landlordId  String        @map("landlord_id") @db.Uuid
+  landlord    User          @relation("LandlordListings", fields: [landlordId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  price       Decimal       @db.Decimal(10, 2)
+  sizeSqft    Decimal       @map("size_sqft") @db.Decimal(8, 2)
+  bedrooms    Int
+  bathrooms   Int
+  floorNumber Int?          @map("floor_number")
+  address     String
+  area        String
+  city        String
+  latitude    Decimal       @db.Decimal(10, 7)
+  longitude   Decimal       @db.Decimal(10, 7)
+  amenities   String[]
+  status      ListingStatus @default(AVAILABLE)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  images    ListingImage[]
+  favorites Favorite[]
+  inquiries Inquiry[]
+  reviews   Review[]
+
+  @@index([city, area])
+  @@index([price])
+  @@index([bedrooms, bathrooms])
+  @@index([status])
+  @@index([latitude, longitude])
+  @@index([amenities], type: Gin)
+  @@map("listings")
+}
